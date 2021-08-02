@@ -35,8 +35,8 @@ export function createCommic(req, res) {
     rate: req.body.rate,
     subcribe: req.body.subcribe,
     description: req.body.description,
-    created_at: req.body.created_at,
-    chapters: req.body.chapters,
+    // chapters: req.body.chapters,
+    chapters: [],
   });
 
   return commic
@@ -140,7 +140,6 @@ export function getChapter(req, res) {
 
 export function searchCommic(req, res) {
   if (!req.query) res.status(201).send("no query");
-  // res.status(200).send(req.query);
 
   Commic.find({ name: { $regex: ".*" + req.query.name + ".*" } })
     .select("name another-name description")

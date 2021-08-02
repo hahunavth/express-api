@@ -18,21 +18,7 @@ const commicSchema = new mongoose.Schema({
   subcribe: Number,
   description: String,
   created_at: Date,
-  chapters: {
-    type: [
-      {
-        chapter_number: {
-          type: Number,
-          required: true,
-        },
-        chapter_name: String,
-        chapter_imgs: [String],
-        views: Number,
-        created_at: Date,
-      },
-    ],
-    required: true,
-  },
+  chapters: [{ type: mongoose.Schema.Types.ObjectId, ref: "Chapter" }],
 });
 
 export default mongoose.model("Commic", commicSchema);

@@ -11,6 +11,8 @@ import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import cloudinaryRouter from "./routes/cloudinary.routes.js";
 import { docs } from "./docs.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 // set up dependencies
 const app = express();
@@ -27,8 +29,8 @@ app.use(express.urlencoded({ extended: true, limit: "30mb" }));
 // set up mongoose
 mongoose
   .connect(
-    // "mongodb+srv://hahunavth:a19042001442@cluster0.auw0z.mongodb.net/student?retryWrites=true&w=majority",
-    "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.auw0z.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+    // "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&ssl=false",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -54,6 +56,7 @@ app.use("/api/v1/test", userRouter);
 app.use("/api/v1/cloudinary", cloudinaryRouter);
 
 const Role = db.Role;
+
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
@@ -84,3 +87,5 @@ function initial() {
     }
   });
 }
+
+// initial();

@@ -15,6 +15,12 @@ import {
   searchCommic,
 } from "../controllers/commic.js";
 
+import {
+  createChapter,
+  getChapterList,
+  getSingleChapter,
+} from "../controllers/chapter.js";
+
 const router = express.Router();
 router.post("/courses", createCourse);
 router.get("/courses", getAllCourse);
@@ -24,9 +30,12 @@ router.delete("/courses/:courseId", deleteCourse);
 
 router.post("/commics", createCommic);
 router.get("/commics", getAllCommic);
-router.get("/commics/:id/chapter/:chapter_number", getChapter);
+// router.get("/commics/:id/chapter/:chapter_number", getChapter);
 router.get("/commics/:id", getCommic);
 router.get("/commics_search/", searchCommic);
+router.post("/commic/:commic_id/chapter/", createChapter);
+router.get("/commic/:commic_id/chapter/", getChapterList);
+router.get("/commic/:commic_id/chapter/:chapter_number", getSingleChapter);
 
 export default router;
 
