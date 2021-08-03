@@ -90,6 +90,8 @@ export const getSingleChapter = (req, res) => {
           chapter: chapter,
         });
       });
+    } else {
+      return res.status(404).json({ message: "not found" });
     }
   });
 };
