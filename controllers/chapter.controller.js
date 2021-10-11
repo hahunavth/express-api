@@ -40,7 +40,7 @@ export function getChapterbyId(req, res) {
     });
 }
 
-export function createChapter(req, res) {
+export async function createChapter(req, res) {
   const comicId = req.params.id;
 
   const chapter = Chapter({
@@ -54,7 +54,7 @@ export function createChapter(req, res) {
   if (req.params.id) {
     Comic.findOne({ _id: comicId })
       .populate("chapters", "-__v")
-      .exec((err, comic) => {
+      .exec(async (err, comic) => {
         if (err) {
           res.status(500).json({
             success: false,
@@ -64,22 +64,37 @@ export function createChapter(req, res) {
         }
         console.log(comic);
         if (comic) {
-          chapter.save((err, chapter) => {
-            // comic.chapters.push(chapter._id);
-            // comic.save();
-            res.status(200).json({
-              success: true,
-              message: "Success!",
+          const result = await Chapter.findOne({
+            name: chapter.chapterName,
+            comicId: chapter.comicId,
+          });
+          if (result) {
+            chapter.save((err, chapter) => {
+              // comic.chapters.push(chapter._id);
+              // comic.save();
+              res.status(200).json({
+                success: true,
+                message: "Success!",
+                chapter: chapter,
+              });
+            });
+          } else {
+            console.log("Chapter is exists!");
+            console.log(chapter);
+            res.status(400).json({
+              success: false,
+              message: "Chapter is exists!",
               chapter: chapter,
             });
+          }
+          return;
+        } else {
+          res.status(400).json({
+            success: false,
+            message: "Not found comicId!",
           });
           return;
         }
-        res.status(400).json({
-          success: false,
-          message: "Not found comicId!",
-        });
-        return;
       });
   } else {
     res.status(400).json({

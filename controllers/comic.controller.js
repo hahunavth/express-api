@@ -88,22 +88,33 @@ export async function createComic(req, res) {
     console.log(result);
   }
 
-  // save comic
-  comic
-    .save()
-    .then((comic) => {
-      res.status(201).json({
-        success: true,
-        message: "Add new comic successfully!",
-        comic,
+  // find comic in db
+  const rs = await Comic.findOne({ name: comic.name });
+
+  if (!rs) {
+    // save comic
+    comic
+      .save()
+      .then((comic) => {
+        res.status(201).json({
+          success: true,
+          message: "Add new comic successfully!",
+          comic,
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          success: false,
+          message: err.message,
+        });
       });
-    })
-    .catch((err) => {
-      res.status(500).json({
-        success: false,
-        message: err.message,
-      });
+  } else {
+    res.status(201).json({
+      success: false,
+      message: "Comic is exists!",
+      comic: rs,
     });
+  }
 }
 
 export function getOneComic(req, res) {
