@@ -10,6 +10,7 @@ import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import comicRouter from "./routes/comic.route.js";
 import chapterRouter from "./routes/chapter.route.js";
+import fileRouter from "./routes/file.route.js";
 
 /*=============== INIT ===============*/
 dotenv.config();
@@ -84,3 +85,4 @@ app.use("/api/v1/accounts", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/comics", comicRouter);
 app.use("/api/v1/chapters/", chapterRouter);
+app.use("/api/v1/files", fileRouter);
